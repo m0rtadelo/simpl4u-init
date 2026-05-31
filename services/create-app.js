@@ -31,18 +31,21 @@ export class CreateAppService {
     await FileService.mkdir(root);
     await FileService.cp('./skeleton', root, { recursive: true });
     const simpl4uTarget = `${model.root}/simpl4u`;
-    const simpl4u = await FileService.ls(simpl4uTarget);
-    if (simpl4u) {
+    const exists = await FileService.ls(simpl4uTarget);
+    if (exists) {
       SpinnerService.hide();
       const result = await ModalService.confirm(
         'A simpl4u folder already exists in the target directory. Do you want to overwrite it?',
         'Warning'
       );
       if (result) {
-        await FileService.cp('../simpl4u', simpl4uTarget, { recursive: true });
+        await FileService.rm(simpl4uTarget, { recursive: true, force: true });
+        const cloneResult = await window.api.exec('git clone https://github.com/m0rtadelo/simpl4u simpl4u', { cwd: model.root, timeout: 120000 });
+        if (cloneResult.error) throw new Error(`Failed to clone simpl4u: ${cloneResult.stderr}`);
       }
     } else {
-      await FileService.cp('../simpl4u', simpl4uTarget, { recursive: true });
+      const cloneResult = await window.api.exec('git clone https://github.com/m0rtadelo/simpl4u simpl4u', { cwd: model.root, timeout: 120000 });
+      if (cloneResult.error) throw new Error(`Failed to clone simpl4u: ${cloneResult.stderr}`);
     }
     SpinnerService.show();
   }
@@ -352,9 +355,19 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
     if (npmResult.error) {
       console.error('npm install failed:', npmResult.stderr);
     }
-    const gitResult = await window.api.exec('git init', { cwd: root, timeout: 30000 });
-    if (gitResult.error) {
-      console.error('git init failed:', gitResult.stderr);
+    const gitInitResult = await window.api.exec('git init', { cwd: root, timeout: 30000 });
+    if (gitInitResult.error) {
+      console.error('git init failed:', gitInitResult.stderr);
+      return;
+    }
+    const gitAddResult = await window.api.exec('git add .', { cwd: root, timeout: 30000 });
+    if (gitAddResult.error) {
+      console.error('git add failed:', gitAddResult.stderr);
+      return;
+    }
+    const gitCommitResult = await window.api.exec('git commit -m "Initial commit"', { cwd: root, timeout: 30000 });
+    if (gitCommitResult.error) {
+      console.error('git commit failed:', gitCommitResult.stderr);
     }
   }
 
