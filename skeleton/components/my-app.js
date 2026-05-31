@@ -1,0 +1,36 @@
+import { ToastService } from '../../simpl4u/services/toast-service.js';
+import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { LanguageService } from '../../simpl4u/services/language-service.js';
+import { RouterService } from '../../simpl4u/services/router-service.js';
+%lang_imports
+
+export class MyApp extends StaticElement {
+
+  constructor() {
+    super();
+    this.initApp();
+  }
+
+  initApp() {
+    LanguageService.set({ %lang_ids }); // Add custom translations
+    ToastService.duration = %duration;
+    ToastService.dismissible = %dismissible;
+    ToastService.position = { x: '%positionx', y: '%positiony' };
+    %router_init
+    document.title = '%name'; // Set document title
+  }
+
+  template() {
+    const v = RouterService.view;
+    return `
+    %navbar
+    <div class="container-fluid">
+      <div class="row">
+        %app_items
+      </div>
+    </div>
+    <simpl-spinner></simpl-spinner>
+        `;
+  }
+}
+customElements.define('my-app', MyApp);
