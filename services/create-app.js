@@ -9,7 +9,6 @@ export class CreateAppService {
 
       SpinnerService.show();
       await this.copySkeletonStructure(root, model);
-      await this.cleanupSimpl4u(root, model);
       await this.setWindow(root, model);
       await this.setAppName(root, model);
       await this.setRouter(root, model);
@@ -48,14 +47,6 @@ export class CreateAppService {
       if (cloneResult.error) throw new Error(`Failed to clone simpl4u: ${cloneResult.stderr}`);
     }
     SpinnerService.show();
-  }
-
-  static async cleanupSimpl4u(root, model) {
-    const gitDir = `${model.root}/simpl4u/.git`;
-    const exists = await FileService.ls(gitDir);
-    if (exists) {
-      await FileService.rm(gitDir, { recursive: true, force: true });
-    }
   }
 
   static async setPanels(root, model) {
