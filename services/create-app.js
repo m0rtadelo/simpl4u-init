@@ -4,6 +4,7 @@ import { SpinnerService } from '../../simpl4u/services/spinner-service.js';
 export class CreateAppService {
   static async createApp(model) {
     try {
+      await this.checkPrerequisites();
       const root = `${model.root}/${model.name}`;
       console.log(model);
 
@@ -23,6 +24,22 @@ export class CreateAppService {
       SpinnerService.hide();
       console.error(error);
       ModalService.message(`Error creating app: ${error.message}`, 'Error');
+    }
+  }
+
+  static async checkPrerequisites() {
+    const checks = [
+      { cmd: 'node --version', name: 'Node.js' },
+      { cmd: 'npm --version', name: 'npm' },
+      { cmd: 'git --version', name: 'Git' },
+    ];
+    const missing = [];
+    for (const { cmd, name } of checks) {
+      const result = await window.api.exec(cmd);
+      if (result.error) missing.push(name);
+    }
+    if (missing.length) {
+      throw new Error(`Missing prerequisites: ${missing.join(', ')}. Please install them and try again.`);
     }
   }
 
