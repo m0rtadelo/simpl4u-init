@@ -292,7 +292,7 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
       await this.replaceHolders(root, '/components/my-app.js', 'navbar', '<my-navbar></my-navbar>');
       await this.replaceHolders(root, '/components/my-navbar.js', 'title', model.title);
       await this.replaceHolders(root, '/components/my-navbar.js', 'language-selector',
-        model['language-selector'] ? 'false' : 'true');
+        (!model['language-selector'] || model.lang?.length < 2) ? 'true' : 'false');
       await this.replaceHolders(root, '/components/my-navbar.js', 'theme-selector',
         model['theme-selector'] ? 'false' : 'true');
     } else {
