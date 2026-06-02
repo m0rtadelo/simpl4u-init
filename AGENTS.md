@@ -37,7 +37,7 @@ No test framework is installed. No CI or pre-commit hooks exist.
 
 ## Skeleton placeholders
 
-`skeleton/` files contain `%holder` tokens. `CreateAppService.replaceHolders()` does a single `String.replace()` per token. Adding or renaming a placeholder requires updating both `services/create-app.js` and the skeleton file.
+`skeleton/` files contain `%holder` tokens. `CreateAppService.replaceHolders()` does `String.replaceAll()` per token. Adding or renaming a placeholder requires updating both `services/create-app.js` and the skeleton file.
 
 | File | Placeholders |
 |------|-------------|

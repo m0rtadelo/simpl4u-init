@@ -386,7 +386,7 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
       console.error(`File not found: ${path}`);
       return;
     }
-    const newContent = content.replace(`%${holder}`, value !== undefined ? value : '');
+    const newContent = content.replaceAll(`%${holder}`, value !== undefined ? value : '');
     await FileService.writeFileSync(path, newContent, { encoding: 'utf-8' });
   }
 }
