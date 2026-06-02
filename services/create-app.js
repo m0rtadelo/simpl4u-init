@@ -96,6 +96,13 @@ export class CreateAppService {
       allImports.push(...imports);
     }
 
+    if (model['import-export']) {
+      appItems += '${ v === \'settings\' ? \'<my-settings></my-settings>\' : \'\' }\n';
+      navbarItems += '{ id: \'settings\', name: \'Settings\' }, ';
+      const imports = await this.createImportExportComponent(root);
+      allImports.push(...imports);
+    }
+
     await this.replaceHolders(root, '/components/my-app.js', 'app_items', appItems);
     await this.replaceHolders(root, '/components/my-navbar.js', 'navbar_items', navbarItems);
 
@@ -301,6 +308,82 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
       `import { ${className} } from './components/my-${panel.id}.js';`,
       `import { ${formClassName} } from './components/my-${panel.id}-form.js';`,
     ];
+  }
+
+  static async createImportExportComponent(root) {
+    await FileService.writeFileSync(
+      `${root}/components/my-settings.js`,
+      `import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { ToastService } from '../../simpl4u/services/toast-service.js';
+import { FileService } from '../../simpl4u/services/file-service.js';
+import { SimplModel } from '../../simpl4u/models/simpl-model.js';
+import { StorageService } from '../../simpl4u/services/storage-service.js';
+
+export class MySettings extends StaticElement {
+  files;
+
+  template() {
+    return \`
+      <div class="row">
+        <div class="col-12 col-md-5 mt-3">
+          <div class="card">
+            <div class="card-header">Export data to file</div>
+            <div class="card-body mt-3">
+              <simpl-button (click)="export" class="d-grid">Export data</simpl-button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-7 mt-3">
+          <div class="card">
+            <div class="card-header">Restore data from backup file</div>
+            <div class="card-body mt-3">
+              <div class="row">
+                <div class="col-9">
+                  <simpl-file (change)="change" id="file"></simpl-file>
+                </div>
+                <div class="col-3">
+                  <simpl-button (click)="import" class="d-grid">Restore data</simpl-button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    \`;
+  }
+
+  change(event) {
+    this.files = event.target.files;
+  }
+
+  async import() {
+    const file = this.files?.item?.(0);
+    if (!file) {
+      ToastService.error('No file selected');
+      return;
+    }
+    try {
+      const content = await file.text();
+      const json = JSON.parse(content);
+      await StorageService.saveAppModel(content);
+      StorageService.saveUserModel(content);
+      SimplModel.model = json;
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      ToastService.error('Error importing data');
+    }
+  }
+
+  async export() {
+    const data = await StorageService.loadAppModel();
+    FileService.download('export.json', data);
+  }
+}
+customElements.define('my-settings', MySettings);`,
+      { encoding: 'utf-8' }
+    );
+    return ['import { MySettings } from \'./components/my-settings.js\';'];
   }
 
   static async setWindow(root, model) {

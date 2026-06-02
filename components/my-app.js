@@ -13,7 +13,7 @@ export class MyApp extends StaticElement {
     document.title = 'Init App Wizard (v1.0.0) - Simpl4u';
     RouterService.view = 'init';
     StorageService.key = 'init-app';
-
+    StorageService.clear();
     this.model = {};
     this.setField('winx', 1100);
     this.setField('winy', 800);
@@ -26,6 +26,7 @@ export class MyApp extends StaticElement {
     this.setField('dismissible', true);
     this.setField('positionx', 'right');
     this.setField('positiony', 'top');
+    this.setField('import-export', true);
     this.setField('data', [
       { id: 'home', Label: 'Home', Type: 'static'}
     ]);
