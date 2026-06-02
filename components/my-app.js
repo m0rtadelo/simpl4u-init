@@ -18,7 +18,7 @@ export class MyApp extends StaticElement {
     this.setField('winx', 1100);
     this.setField('winy', 800);
     this.setField('fullscreen', false);
-    this.setField('lang', ['English', 'Español']);
+    this.setField('lang', ['English', 'Español', 'Català']);
     this.setField('language-selector', true);
     this.setField('navbar', true);
     this.setField('theme-selector', true);
@@ -40,6 +40,7 @@ export class MyApp extends StaticElement {
         ${ v === 'init' ? '<my-init></my-init>' : '' }
         ${ v === 'app' ? '<my-wizard-app></my-wizard-app>' : '' }
         ${ v === 'panels' ? '<my-wizard-panels></my-wizard-panels>' : '' }
+        ${ v === 'crud' ? '<my-wizard-crud-fields></my-wizard-crud-fields>' : '' }
         ${ v === 'lang' ? '<my-wizard-lang></my-wizard-lang>' : '' }
         ${ v === 'navbar' ? '<my-wizard-navbar></my-wizard-navbar>' : '' }
         ${ v === 'notyf' ? '<my-wizard-notyf></my-wizard-notyf>' : '' }

@@ -7,6 +7,7 @@ import { MyWizardApp } from './components/my-wizzard-app.js';
 import { MyWizardLang } from './components/my-wizard-lang.js';
 import { MySimplSwitch } from './components/my-simpl-switch.js';
 import { MyWizardPanels } from './components/my-wizard-panels.js';
+import { MyWizardCrudFields } from './components/my-wizard-crud-fields.js';
 import { MyWizardNavBar } from './components/my-wizard-navbar.js';
 import { MyWizardFooter } from './components/my-wizard-footer.js';
 import { MyPanelWindow } from './components/my-panel-window.js';

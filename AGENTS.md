@@ -23,7 +23,7 @@ No test framework is installed. No CI or pre-commit hooks exist.
 
 - **Dual mode**: Runs in Electron (full `window.api` via `api-electron.js` contextBridge — all IPC handlers: `getLocale`, `saveSystem`, `loadSystem`, `writeFile`, `readFile`, `mkdir`, `ls`, `cp`, `rm`, `rmdir`, `exec`, `selectDirectory`) or as browser SPA (limited `api-browser.js` fallback — only `getLocale` + `selectDirectory` returning `null`; file system, IPC, and `exec` are Electron-only).
 - **Entry point**: `index.js` imports all 14 wizard components and boots the simpl4u framework.
-- **Wizard flow**: `init` (welcome + prerequisite checks for node/npm/git) → `app` (name, window size, languages) → `panels` (CRUD screen list) → `navbar` (navbar settings) → `notyf` (notification defaults) → `confirm` (select destination folder + create). Navigation and per-step validation handled by `my-wizard-footer.js` + `ValidationService`.
+- **Wizard flow**: `init` (welcome + prerequisite checks for node/npm/git) → `app` (name, window size, languages) → `panels` (CRUD screen list) → `crud` (CRUD field definitions per panel) → `navbar` (navbar settings) → `notyf` (notification defaults) → `confirm` (select destination folder + create). Navigation and per-step validation handled by `my-wizard-footer.js` + `ValidationService`.
 - **Skeleton template** (`skeleton/`): copied to the target directory, then `%placeholder` tokens are replaced by `services/create-app.js`.
 - **Generated app**: creates `<root>/<name>/`, copies skeleton, clones simpl4u from GitHub, runs `npm install`, then `git init` + `git add .` + `git commit -m "Initial commit"`.
 - **Notyf** for notifications, **Bootstrap 5** + Bootstrap Icons for UI.
@@ -52,5 +52,6 @@ No test framework is installed. No CI or pre-commit hooks exist.
 
 - The file `components/my-wizzard-app.js` uses the intentional typo "wizzard" — do not rename it.
 - Panel types supported by the wizard: `static`, `reactive`, `crud`, `todo`. Each generates a component file in the target app.
+- For `crud` panels, the `crud` step lets you define custom field sets per panel using a nested `<simpl-crud>`. Field definitions are stored per panel under `StorageService` context `cf-<panelId>` and consumed by `CreateAppService.createComponentCrud`.
 - Wizard persists form state via `StorageService` under key `init-app`.
 - `my-simpl-switch.js` is a `ReactiveElement` wrapping `<simpl-switch>` that disables the language selector toggle when fewer than 2 languages are selected.

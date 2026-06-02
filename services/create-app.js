@@ -1,12 +1,22 @@
 import { FileService } from '../../simpl4u/services/file-service.js';
 import { ModalService } from '../../simpl4u/services/modal-service.js';
 import { SpinnerService } from '../../simpl4u/services/spinner-service.js';
+import { StorageService } from '../../simpl4u/services/storage-service.js';
 export class CreateAppService {
   static async createApp(model) {
     try {
       await this.checkPrerequisites();
       const root = `${model.root}/${model.name}`;
       console.log(model);
+
+      for (const panel of model.data || []) {
+        if (panel.Type === 'crud') {
+          const fieldsData = await StorageService.loadApp('cf-' + panel.id);
+          if (fieldsData?.data?.length) {
+            panel._fields = fieldsData.data;
+          }
+        }
+      }
 
       SpinnerService.show();
       await this.copySkeletonStructure(root, model);
@@ -158,6 +168,22 @@ customElements.define('my-${panel.id}', ${className});`,
 
   static async createComponentCrud(root, panel) {
     const className = this.panelClassName(panel.id);
+    const fields = panel._fields;
+
+    let headersCode = '[\'name\', \'description\']';
+    let formCode = `[
+      { name: 'id', disabled: true, hidden: true, unique: true, index: true },
+      { name: 'name', required: true, class: 'col-12', unique: true },
+      { name: 'description', class: 'col-12' },
+    ]`;
+
+    if (fields?.length) {
+      const headers = fields.filter(f => !f.hidden).map(f => `'${f.name}'`);
+      headersCode = `[${headers.join(', ')}]`;
+       
+      formCode = JSON.stringify(fields, null, 4);
+    }
+
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
       `import { StaticElement } from '../../simpl4u/core/static-element.js';
@@ -176,12 +202,8 @@ export class ${className} extends StaticElement {
 
   onReady() {
     const crud = this.get('crud');
-    crud.setHeaders(['name', 'description']);
-    crud.setForm([
-      { name: 'id', disabled: true, hidden: true, unique: true, index: true },
-      { name: 'name', required: true, class: 'col-12', unique: true },
-      { name: 'description', class: 'col-12' },
-    ]);
+    crud.setHeaders(${headersCode});
+    crud.setForm(${formCode});
   }
 }
 customElements.define('my-${panel.id}', ${className});`,

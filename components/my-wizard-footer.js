@@ -4,7 +4,7 @@ import { CreateAppService } from '../services/create-app.js';
 import { ValidationService } from '../services/validation.service.js';
 
 export class MyWizardFooter extends StaticElement {
-  wizard = ['app', 'panels', 'navbar', 'notyf', 'confirm'];
+  wizard = ['app', 'panels', 'crud', 'navbar', 'notyf', 'confirm'];
   template() {
     return `
       <div class="card fixed-bottom">

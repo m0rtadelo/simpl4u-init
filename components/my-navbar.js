@@ -17,6 +17,7 @@ export class MyNavBar extends StaticElement {
       { id: 'init', name: 'Welcome' },
       { id: 'app', name: 'Application' },
       { id: 'panels', name: 'Panels' },
+      { id: 'crud', name: 'CRUD Fields' },
       { id: 'navbar', name: 'Navbar' },
       { id: 'notyf', name: 'Notyf' },
       { id: 'confirm', name: 'Confirm' },
