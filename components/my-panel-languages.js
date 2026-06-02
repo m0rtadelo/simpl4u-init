@@ -1,4 +1,5 @@
 import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { ModalService } from '../../simpl4u/services/modal-service.js';
 
 export class MyPanelLanguages extends StaticElement {
   template() {
@@ -14,6 +15,21 @@ export class MyPanelLanguages extends StaticElement {
         </div>
       </div>    
     `;
+  }
+
+  onReady() {
+    const checkboxes = this.get('lang');
+    if (!checkboxes) return;
+    const original = checkboxes.toggleCheckbox.bind(checkboxes);
+    checkboxes.toggleCheckbox = (event) => {
+      const values = this.model.lang || [];
+      if (!event.target.checked && values.length <= 1) {
+        ModalService.message('At least one language should be selected', 'Warning');
+        event.target.checked = true;
+        return;
+      }
+      original(event);
+    };
   }
 }
 customElements.define('my-panel-languages', MyPanelLanguages);
