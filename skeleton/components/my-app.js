@@ -13,13 +13,13 @@ export class MyApp extends StaticElement {
   }
 
   initApp() {
-    LanguageService.set({ %lang_ids }); // Add custom translations
+    LanguageService.set({ %lang_ids }%default_lang);
     ToastService.duration = %duration;
     ToastService.dismissible = %dismissible;
     ToastService.position = { x: '%positionx', y: '%positiony' };
     StorageService.key = '%name';
     %router_init
-    document.title = '%name'; // Set document title
+    document.title = '%name';
   }
 
   template() {
@@ -28,8 +28,7 @@ export class MyApp extends StaticElement {
     %navbar
     <div class="container-fluid">
       <div class="row">
-        %app_items
-      </div>
+%app_items      </div>
     </div>
     <simpl-spinner></simpl-spinner>
         `;

@@ -88,7 +88,7 @@ export class CreateAppService {
     const allImports = [];
 
     for (const panel of model.data) {
-      appItems += `\${ v === '${panel.id}' ? '<my-${panel.id}></my-${panel.id}>' : '' }\n`;
+      appItems += `        \${ v === '${panel.id}' ? '<my-${panel.id}></my-${panel.id}>' : '' }\n`;
       if (!panel['Hidden in Navbar']) {
         navbarItems += `{ id: '${panel.id}', name: '${panel.Label}' }, `;
       }
@@ -194,6 +194,8 @@ customElements.define('my-${panel.id}', ${className});`,
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
       `import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { LanguageService } from '../../simpl4u/services/language-service.js';      
+/** @typedef {import('../../simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
 
 export class ${className} extends StaticElement {
   constructor() {
@@ -203,6 +205,10 @@ export class ${className} extends StaticElement {
 
   template() {
     return \`
+      <div class="input-group mt-4">
+        <input type="text" id="search-${panel.id}" (input)="setFilter" name="filter" autofocus="true" class="form-control" value="\${this.model['filter-${panel.id}'] || ''}" placeholder="\${LanguageService.i18n('filter-text')}" aria-label="\${LanguageService.i18n('filter-text')}" aria-describedby="button-clear">
+        <button class="btn btn-outline-secondary" type="button" (click)="clearFilter">\${LanguageService.i18n('clear')}</button>
+      </div>
       <simpl-crud id="crud" context="\${this.context}"></simpl-crud>
     \`;
   }
@@ -210,7 +216,19 @@ export class ${className} extends StaticElement {
   onReady() {
     const crud = this.get('crud');
     crud.setHeaders(${headersCode});
-    crud.setForm(${formCode});
+    /** @type {FormDefinition[]} */
+    const fields = ${formCode};
+    crud.setForm(fields);
+  }
+
+  setFilter(event) {
+    this.setField('filter-${panel.id}', event.target.value);
+  }
+
+  clearFilter() {
+    this.setField('filter-${panel.id}', '');
+    this.get('search-${panel.id}').value = '';
+    setTimeout(() => {this.get('search').focus();}, 300);
   }
 }
 customElements.define('my-${panel.id}', ${className});`,
@@ -461,6 +479,11 @@ customElements.define('my-settings', MySettings);`,
     await this.replaceHolders(root, '/components/my-app.js', 'lang_imports', imports);
     await this.replaceHolders(root, '/components/my-app.js', 'lang_ids', ids);
     await this.replaceHolders(root, '/components/my-navbar.js', 'languages', languages);
+    if (custom.length === 1) {
+      await this.replaceHolders(root, '/components/my-app.js', 'default_lang', `, '${custom[0].id}'`);
+    } else {
+      await this.replaceHolders(root, '/components/my-app.js', 'default_lang', '');
+    }
   }
 
   static async postGenerationSteps(root) {

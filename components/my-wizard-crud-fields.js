@@ -62,10 +62,9 @@ export class MyWizardCrudFields extends StaticElement {
     ];
     crud.setHeaders(['name', 'label', 'type', 'required', 'hidden']);
     crud.setForm([
-      { name: 'name', required: true, class: 'col-6', unique: true, label: 'Field name' },
-      { name: 'label', class: 'col-6', label: 'Display label' },
+      { name: 'name', required: true, class: 'col-12', unique: true, label: 'Field name' },
       { name: 'type', class: 'col-4', type: 'select', items: JSON.stringify(types) },
-      { name: 'items', class: 'col-8', type: 'textarea', label: 'Options (JSON for select)', rows: 2 },
+      { name: 'items', class: 'col-8', type: 'textarea', label: 'Items (JSON for select)', rows: 2 },
       { name: 'required', class: 'col-3', type: 'switch' },
       { name: 'unique', class: 'col-3', type: 'switch' },
       { name: 'index', class: 'col-3', type: 'switch' },
