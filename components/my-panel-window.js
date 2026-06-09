@@ -13,6 +13,9 @@ export class MyPanelWindow extends StaticElement {
              <simpl-input class="col-4" id="winy" required label="Window Height"></simpl-input>
              <simpl-switch class="col-4" style="margin-top: 40px" id="fullscreen" label="Fullscreen"></simpl-switch>
            </div>
+           <div class="card-text row mt-2">
+             <simpl-switch class="col-12" id="save-window-state" label="Remember window state"></simpl-switch>
+           </div>
         </div>
       </div>    
     `;

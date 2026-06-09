@@ -408,6 +408,7 @@ customElements.define('my-settings', MySettings);`,
     await this.replaceHolders(root, '/main.js', 'winx', model.winx);
     await this.replaceHolders(root, '/main.js', 'winy', model.winy);
     await this.replaceHolders(root, '/main.js', 'fullscreen', model.fullscreen ? 'true' : 'false');
+    await this.replaceHolders(root, '/main.js', 'save-window-state', model['save-window-state'] ? 'true' : 'false');
   }
 
   static async setAppName(root, model) {

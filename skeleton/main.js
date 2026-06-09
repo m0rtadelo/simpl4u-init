@@ -127,15 +127,58 @@ ipcMain.handle('rmdir', (event, dirPath, options = { recursive: false }) => {
   }
 });
 
+const SAVE_WINDOW_STATE = %save-window-state;
+
+function getWindowStatePath() {
+  return path.join(app.getPath('userData'), 'window-state.json');
+}
+
+function loadWindowState() {
+  try {
+    const data = fs.readFileSync(getWindowStatePath(), 'utf8');
+    return JSON.parse(data);
+  } catch {
+    return {};
+  }
+}
+
+function saveWindowState(win) {
+  try {
+    const bounds = win.getBounds();
+    const state = {
+      width: bounds.width,
+      height: bounds.height,
+      fullscreen: win.isFullScreen(),
+    };
+    fs.writeFileSync(getWindowStatePath(), JSON.stringify(state, null, 2));
+  } catch (err) {
+    console.error('Failed to save window state:', err);
+  }
+}
+
 function createWindow() {
+  const defaults = { width: %winx, height: %winy, fullscreen: %fullscreen };
+  const state = SAVE_WINDOW_STATE ? { ...defaults, ...loadWindowState() } : defaults;
+
   const win = new BrowserWindow({
-    width: %winx,
-    height: %winy,
-    fullscreen: %fullscreen,
+    width: state.width,
+    height: state.height,
+    fullscreen: state.fullscreen,
     webPreferences: {
       preload: path.join(__dirname, 'api-electron.js'),
     }
   });
+
+  if (SAVE_WINDOW_STATE) {
+    let saveTimeout;
+    win.on('resize', () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => saveWindowState(win), 500);
+    });
+    win.on('enter-full-screen', () => saveWindowState(win));
+    win.on('leave-full-screen', () => saveWindowState(win));
+    win.on('close', () => saveWindowState(win));
+  }
 
   win.loadFile('index.html');
   win.autoHideMenuBar = true;

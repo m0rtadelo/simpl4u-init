@@ -18,6 +18,7 @@ export class MyApp extends StaticElement {
     this.setField('winx', 1100);
     this.setField('winy', 800);
     this.setField('fullscreen', false);
+    this.setField('save-window-state', true);
     this.setField('lang', ['English', 'Español', 'Català']);
     this.setField('language-selector', true);
     this.setField('navbar', true);
