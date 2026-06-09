@@ -130,7 +130,7 @@ ipcMain.handle('rmdir', (event, dirPath, options = { recursive: false }) => {
 const SAVE_WINDOW_STATE = %save-window-state;
 
 function getWindowStatePath() {
-  return path.join(app.getPath('userData'), 'window-state.json');
+  return path.join(app.getPath('userData'), `window-state-%name.json`);
 }
 
 function loadWindowState() {

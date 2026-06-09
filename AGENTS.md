@@ -43,7 +43,7 @@ No test framework is installed. No CI or pre-commit hooks exist.
 |------|-------------|
 | `package.json` | `%name` |
 | `index.html` | `%name` |
-| `main.js` | `%winx`, `%winy`, `%fullscreen`, `%save-window-state` |
+| `main.js` | `%name`, `%winx`, `%winy`, `%fullscreen`, `%save-window-state` |
 | `components/my-app.js` | `%lang_imports`, `%lang_ids`, `%duration`, `%dismissible`, `%positionx`, `%positiony`, `%router_init`, `%name`, `%navbar`, `%app_items` |
 | `components/my-navbar.js` | `%title`, `%language-selector`, `%theme-selector`, `%languages`, `%navbar_items` |
 | `README.md` | `%name` |

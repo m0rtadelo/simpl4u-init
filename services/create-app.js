@@ -416,6 +416,7 @@ customElements.define('my-settings', MySettings);`,
     await this.replaceHolders(root, '/package.json', 'name', model.name);
     await this.replaceHolders(root, '/index.html', 'name', model.name);
     await this.replaceHolders(root, '/components/my-app.js', 'name', model.name);
+    await this.replaceHolders(root, '/main.js', 'name', model.name);
   }
 
   static async setRouter(root, model) {
