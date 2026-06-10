@@ -462,6 +462,14 @@ customElements.define('my-settings', MySettings);`,
       '日本語': { id: 'ja', name: '日本語', import: 'import { words as ja } from \'../assets/i18n/ja.js\';' },
     };
 
+    const filterText = {
+      en: 'Filter...',
+      es: 'Filtrar...',
+      ca: 'Filtrar...',
+      de: 'Filtern...',
+      ja: 'フィルター',
+    };
+
     const custom = [];
     for (const lang of model.lang) {
       const entry = map[lang];
@@ -469,7 +477,7 @@ customElements.define('my-settings', MySettings);`,
       custom.push(entry);
       await FileService.writeFileSync(
         `${root}/assets/i18n/${entry.id}.js`,
-        `export const words = {\n  title: '${model.title}'\n};`,
+        `export const words = {\n  title: '${model.title}',\n  'filter-text': '${filterText[entry.id] || 'Filter...'}'\n};`,
         { encoding: 'utf-8' }
       );
     }
