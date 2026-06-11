@@ -332,6 +332,7 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
     await FileService.writeFileSync(
       `${root}/components/my-settings.js`,
       `import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { LanguageService } from '../../simpl4u/services/language-service.js';
 import { ToastService } from '../../simpl4u/services/toast-service.js';
 import { FileService } from '../../simpl4u/services/file-service.js';
 import { SimplModel } from '../../simpl4u/models/simpl-model.js';
@@ -345,22 +346,22 @@ export class MySettings extends StaticElement {
       <div class="row">
         <div class="col-12 col-md-5 mt-3">
           <div class="card">
-            <div class="card-header">Export data to file</div>
+            <div class="card-header">\${LanguageService.i18n('export-data-to-file')}</div>
             <div class="card-body mt-3">
-              <simpl-button (click)="export" class="d-grid">Export data</simpl-button>
+              <simpl-button (click)="export" class="d-grid">\${LanguageService.i18n('export-data')}</simpl-button>
             </div>
           </div>
         </div>
         <div class="col-12 col-md-7 mt-3">
           <div class="card">
-            <div class="card-header">Restore data from backup file</div>
+            <div class="card-header">\${LanguageService.i18n('restore-data-from-backup-file')}</div>
             <div class="card-body mt-3">
               <div class="row">
                 <div class="col-9">
                   <simpl-file (change)="change" id="file"></simpl-file>
                 </div>
                 <div class="col-3">
-                  <simpl-button (click)="import" class="d-grid">Restore data</simpl-button>
+                  <simpl-button (click)="import" class="d-grid">\${LanguageService.i18n('restore-data')}</simpl-button>
                 </div>
               </div>
             </div>
@@ -377,7 +378,7 @@ export class MySettings extends StaticElement {
   async import() {
     const file = this.files?.item?.(0);
     if (!file) {
-      ToastService.error('No file selected');
+      ToastService.error(LanguageService.i18n('no-file-selected'));
       return;
     }
     try {
@@ -389,7 +390,7 @@ export class MySettings extends StaticElement {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      ToastService.error('Error importing data');
+      ToastService.error(LanguageService.i18n('error-importing-data'));
     }
   }
 
@@ -462,12 +463,52 @@ customElements.define('my-settings', MySettings);`,
       '日本語': { id: 'ja', name: '日本語', import: 'import { words as ja } from \'../assets/i18n/ja.js\';' },
     };
 
-    const filterText = {
-      en: 'Filter...',
-      es: 'Filtrar...',
-      ca: 'Filtrar...',
-      de: 'Filtern...',
-      ja: 'フィルター',
+    const translations = {
+      en: {
+        'filter-text': 'Filter...',
+        'export-data-to-file': 'Export data to file',
+        'export-data': 'Export data',
+        'restore-data-from-backup-file': 'Restore data from backup file',
+        'restore-data': 'Restore data',
+        'no-file-selected': 'No file selected',
+        'error-importing-data': 'Error importing data',
+      },
+      es: {
+        'filter-text': 'Filtrar...',
+        'export-data-to-file': 'Exportar datos a archivo',
+        'export-data': 'Exportar datos',
+        'restore-data-from-backup-file': 'Restaurar datos desde archivo de respaldo',
+        'restore-data': 'Restaurar datos',
+        'no-file-selected': 'Ningún archivo seleccionado',
+        'error-importing-data': 'Error al importar datos',
+      },
+      ca: {
+        'filter-text': 'Filtrar...',
+        'export-data-to-file': 'Exportar dades a fitxer',
+        'export-data': 'Exportar dades',
+        'restore-data-from-backup-file': 'Restaurar dades des de fitxer de còpia de seguretat',
+        'restore-data': 'Restaurar dades',
+        'no-file-selected': 'Cap fitxer seleccionat',
+        'error-importing-data': 'Error en importar dades',
+      },
+      de: {
+        'filter-text': 'Filtern...',
+        'export-data-to-file': 'Daten in Datei exportieren',
+        'export-data': 'Daten exportieren',
+        'restore-data-from-backup-file': 'Daten aus Sicherungsdatei wiederherstellen',
+        'restore-data': 'Daten wiederherstellen',
+        'no-file-selected': 'Keine Datei ausgewählt',
+        'error-importing-data': 'Fehler beim Importieren der Daten',
+      },
+      ja: {
+        'filter-text': 'フィルター',
+        'export-data-to-file': 'データをファイルにエクスポート',
+        'export-data': 'データをエクスポート',
+        'restore-data-from-backup-file': 'バックアップファイルからデータを復元',
+        'restore-data': 'データを復元',
+        'no-file-selected': 'ファイルが選択されていません',
+        'error-importing-data': 'データのインポート中にエラーが発生しました',
+      },
     };
 
     const custom = [];
@@ -475,9 +516,11 @@ customElements.define('my-settings', MySettings);`,
       const entry = map[lang];
       if (!entry) continue;
       custom.push(entry);
+      const langTranslations = translations[entry.id] || translations.en;
+      const words = { title: model.title, ...langTranslations };
       await FileService.writeFileSync(
         `${root}/assets/i18n/${entry.id}.js`,
-        `export const words = {\n  title: '${model.title}',\n  'filter-text': '${filterText[entry.id] || 'Filter...'}'\n};`,
+        `export const words = ${JSON.stringify(words, null, 2)};`,
         { encoding: 'utf-8' }
       );
     }
