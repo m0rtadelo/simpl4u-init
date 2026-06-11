@@ -107,6 +107,8 @@ export class PlaceholderService {
       },
     };
 
+    await FileService.mkdir(`${root}/assets/i18n`);
+
     const custom = [];
     for (const lang of model.lang) {
       const entry = map[lang];
