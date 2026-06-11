@@ -206,7 +206,7 @@ export class ${className} extends StaticElement {
   template() {
     return \`
       <div class="input-group mt-4">
-        <input type="text" id="search-${panel.id}" (input)="setFilter" name="filter" autofocus="true" class="form-control" value="\${this.model['filter-${panel.id}'] || ''}" placeholder="\${LanguageService.i18n('filter-text')}" aria-label="\${LanguageService.i18n('filter-text')}" aria-describedby="button-clear">
+        <input type="text" id="search-${panel.id}" (input)="setFilter" name="filter" autofocus="true" class="form-control" value="\${this.model['filter'] || ''}" placeholder="\${LanguageService.i18n('filter-text')}" aria-label="\${LanguageService.i18n('filter-text')}" aria-describedby="button-clear">
         <button class="btn btn-outline-secondary" type="button" (click)="clearFilter">\${LanguageService.i18n('clear')}</button>
       </div>
       <simpl-crud id="crud" context="\${this.context}"></simpl-crud>
@@ -222,13 +222,13 @@ export class ${className} extends StaticElement {
   }
 
   setFilter(event) {
-    this.setField('filter-${panel.id}', event.target.value);
+    this.setField('filter', event.target.value);
   }
 
   clearFilter() {
-    this.setField('filter-${panel.id}', '');
+    this.setField('filter', '');
     this.get('search-${panel.id}').value = '';
-    setTimeout(() => {this.get('search').focus();}, 300);
+    setTimeout(() => {this.get('search-${panel.id}').focus();}, 300);
   }
 }
 customElements.define('my-${panel.id}', ${className});`,
