@@ -34,7 +34,7 @@ export class MyWizardConfirm extends StaticElement {
     if (!selected) {
       return;
     }
-    CreateAppService.root = selected.concat('/' + this.model.name);
+    CreateAppService.root = selected.concat('/' + this.getField('name'));
     this.setField('root', selected);
   }
 

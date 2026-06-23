@@ -40,15 +40,15 @@ export class MyWizardFooter extends StaticElement {
   }
 
   async createApp() {
-    const result = await ValidationService.validate(this.model, 'confirm');
+    const result = await ValidationService.validate(this.data, 'confirm');
     if (result) {
-      CreateAppService.createApp(this.model);
+      CreateAppService.createApp(this.data);
     }
   }
 
   async nextStep() {
     const actualPanel = RouterService.view;
-    const result = await ValidationService.validate(this.model, actualPanel);
+    const result = await ValidationService.validate(this.data, actualPanel);
     if (!result) {
       return;
     }

@@ -14,7 +14,7 @@ export class MyApp extends StaticElement {
     RouterService.view = 'init';
     StorageService.key = 'init-app';
     StorageService.clear();
-    this.model = {};
+    this.data = {};
     this.setField('winx', 1100);
     this.setField('winy', 800);
     this.setField('fullscreen', false);

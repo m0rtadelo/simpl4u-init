@@ -1,12 +1,12 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { ReactiveElement } from '../../simpl4u/core/reactive-element.js';
 
-export class MyWizardCrudFields extends StaticElement {
+export class MyWizardCrudFields extends ReactiveElement {
   timer;
 
   onReady() {
     const crudPanels = this.getCrudPanels();
     if (crudPanels.length > 0) {
-      const current = this.model['panel-select'];
+      const current = this.getField('panel-select');
       if (!current || !crudPanels.find(p => p.id === current)) {
         this.setField('panel-select', crudPanels[0].id);
       }
@@ -23,12 +23,12 @@ export class MyWizardCrudFields extends StaticElement {
   }
 
   getCrudPanels() {
-    return (this.model.data || []).filter(p => p.Type === 'crud');
+    return (this.getField('data') || []).filter(p => p.Type === 'crud');
   }
 
   template() {
     const crudPanels = this.getCrudPanels();
-    const selectedId = this.model['panel-select'];
+    const selectedId = this.getField('panel-select');
 
     if (!crudPanels.length) {
       return `
@@ -45,14 +45,14 @@ export class MyWizardCrudFields extends StaticElement {
         <div class="card-header">CRUD Panel Field Definitions</div>
         <div class="card-body">
           <simpl-select id="panel-select" label="Select CRUD panel"></simpl-select>
-          <simpl-crud id="crud-fields" context="cf-${selectedId || crudPanels[0].id}" actions="crud"></simpl-crud>
+          <simpl-crud name="data" context="cf-${selectedId || crudPanels[0].id}" actions="crud"></simpl-crud>
         </div>
       </div>
       <my-wizard-footer></my-wizard-footer>`;
   }
 
   setupCrud() {
-    const crud = this.get('crud-fields');
+    const crud = this.querySelector('simpl-crud');
     if (!crud) return;
     const types = [
       { id: 'input', text: 'Input' },

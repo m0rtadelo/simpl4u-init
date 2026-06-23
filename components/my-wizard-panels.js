@@ -4,7 +4,7 @@ import { StaticElement } from '../../simpl4u/core/static-element.js';
 export class MyWizardPanels extends StaticElement {
   template() {
     return `
-      <simpl-crud id="screens" actions="crud"></simpl-crud>
+      <simpl-crud id="screens" name="data" actions="crud"></simpl-crud>
       <my-wizard-footer></my-wizard-footer>
       `;
   }

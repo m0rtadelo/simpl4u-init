@@ -23,7 +23,7 @@ export class ComponentBuilder {
     const className = this.panelClassName(panel.id);
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from '../../simpl4u/core/static-element.js';
+      `import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${className} extends StaticElement {
   template() {
@@ -42,7 +42,7 @@ customElements.define('my-${panel.id}', ${className});`,
     const className = this.panelClassName(panel.id);
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { ReactiveElement } from '../../simpl4u/core/reactive-element.js';
+      `import { ReactiveElement } from 'simpl4u/core/reactive-element.js';
 
 export class ${className} extends ReactiveElement {
   constructor() {
@@ -83,9 +83,9 @@ customElements.define('my-${panel.id}', ${className});`,
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { LanguageService } from '../../simpl4u/services/language-service.js';
-/** @typedef {import('../../simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
+      `import { StaticElement } from 'simpl4u/core/static-element.js';
+import { LanguageService } from 'simpl4u/services/language-service.js';
+/** @typedef {import('simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
 
 export class ${className} extends StaticElement {
   constructor() {
@@ -96,7 +96,7 @@ export class ${className} extends StaticElement {
   template() {
     return \`
       <div class="input-group mt-4">
-        <input type="text" id="search-${panel.id}" (input)="setFilter" name="filter" autofocus="true" class="form-control" value="\${this.model['filter'] || ''}" placeholder="\${LanguageService.i18n('filter-text')}" aria-label="\${LanguageService.i18n('filter-text')}" aria-describedby="button-clear">
+        <input type="text" id="search-${panel.id}" (input)="setFilter" name="filter" autofocus="true" class="form-control" value="\${this.data['filter'] || ''}" placeholder="\${LanguageService.i18n('filter-text')}" aria-label="\${LanguageService.i18n('filter-text')}" aria-describedby="button-clear">
         <button class="btn btn-outline-secondary" type="button" (click)="clearFilter">\${LanguageService.i18n('clear')}</button>
       </div>
       <simpl-crud id="crud" context="\${this.context}"></simpl-crud>
@@ -133,7 +133,7 @@ customElements.define('my-${panel.id}', ${className});`,
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from '../../simpl4u/core/static-element.js';
+      `import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${className} extends StaticElement {
   constructor() {
@@ -192,7 +192,7 @@ customElements.define('my-${panel.id}', ${className});`,
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}-form.js`,
-      `import { StaticElement } from '../../simpl4u/core/static-element.js';
+      `import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${formClassName} extends StaticElement {
   template() {
@@ -221,12 +221,11 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
   static async createImportExportComponent(root) {
     await FileService.writeFileSync(
       `${root}/components/my-settings.js`,
-      `import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { LanguageService } from '../../simpl4u/services/language-service.js';
-import { ToastService } from '../../simpl4u/services/toast-service.js';
-import { FileService } from '../../simpl4u/services/file-service.js';
-import { SimplModel } from '../../simpl4u/models/simpl-model.js';
-import { StorageService } from '../../simpl4u/services/storage-service.js';
+      `import { StaticElement } from 'simpl4u/core/static-element.js';
+import { LanguageService } from 'simpl4u/services/language-service.js';
+import { ToastService } from 'simpl4u/services/toast-service.js';
+import { FileService } from 'simpl4u/services/file-service.js';
+import { StorageService } from 'simpl4u/services/storage-service.js';
 
 export class MySettings extends StaticElement {
   files;
@@ -274,9 +273,9 @@ export class MySettings extends StaticElement {
     try {
       const content = await file.text();
       const json = JSON.parse(content);
-      await StorageService.saveAppModel(content);
-      StorageService.saveUserModel(content);
-      SimplModel.model = json;
+      await StorageService.saveAppModel(json);
+      StorageService.saveUserModel(json);
+      this.model = json;
       window.location.reload();
     } catch (error) {
       console.error(error);

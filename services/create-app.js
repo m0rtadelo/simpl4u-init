@@ -22,7 +22,7 @@ export class CreateAppService {
       }
 
       SpinnerService.show();
-      await this.copySkeletonStructure(root, model);
+      await this.copySkeletonStructure(root);
       await PlaceholderService.setWindow(root, model);
       await PlaceholderService.setAppName(root, model);
       await PlaceholderService.setRouter(root, model);
@@ -56,27 +56,9 @@ export class CreateAppService {
     }
   }
 
-  static async copySkeletonStructure(root, model) {
+  static async copySkeletonStructure(root) {
     await FileService.mkdir(root);
     await FileService.cp('./skeleton', root, { recursive: true });
-    const simpl4uTarget = `${model.root}/simpl4u`;
-    const exists = await FileService.ls(simpl4uTarget);
-    if (exists) {
-      SpinnerService.hide();
-      const result = await ModalService.confirm(
-        'A simpl4u folder already exists in the target directory. Do you want to overwrite it?',
-        'Warning'
-      );
-      if (result) {
-        await FileService.rm(simpl4uTarget, { recursive: true, force: true });
-        const cloneResult = await window.api.exec('git clone https://github.com/m0rtadelo/simpl4u simpl4u', { cwd: model.root, timeout: 120000 });
-        if (cloneResult.error) throw new Error(`Failed to clone simpl4u: ${cloneResult.stderr}`);
-      }
-    } else {
-      const cloneResult = await window.api.exec('git clone https://github.com/m0rtadelo/simpl4u simpl4u', { cwd: model.root, timeout: 120000 });
-      if (cloneResult.error) throw new Error(`Failed to clone simpl4u: ${cloneResult.stderr}`);
-    }
-    SpinnerService.show();
   }
 
   static async setPanels(root, model) {

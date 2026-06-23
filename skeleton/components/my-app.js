@@ -1,8 +1,8 @@
-import { ToastService } from '../../simpl4u/services/toast-service.js';
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { LanguageService } from '../../simpl4u/services/language-service.js';
-import { RouterService } from '../../simpl4u/services/router-service.js';
-import { StorageService } from '../../simpl4u/services/storage-service.js';
+import { ToastService } from 'simpl4u/services/toast-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { LanguageService } from 'simpl4u/services/language-service.js';
+import { RouterService } from 'simpl4u/services/router-service.js';
+import { StorageService } from 'simpl4u/services/storage-service.js';
 %lang_imports
 
 export class MyApp extends StaticElement {

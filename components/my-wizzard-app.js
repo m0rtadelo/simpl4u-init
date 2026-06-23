@@ -14,7 +14,7 @@ export class MyWizardApp extends StaticElement {
   }
 
   onNameChange() {
-    this.model.title = this.model.name;
+    this.setField('title', this.getField('name'));
   }
 
   onReady() {
