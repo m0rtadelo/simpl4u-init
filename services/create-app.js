@@ -8,7 +8,7 @@ import { ComponentBuilder } from './component-builder.js';
 export class CreateAppService {
   static async createApp(model) {
     try {
-      await this.checkPrerequisites();
+      await this.checkPrerequisites(model.packageManager);
       const root = `${model.root}/${model.name}`;
       console.log(model);
 
@@ -30,7 +30,7 @@ export class CreateAppService {
       await PlaceholderService.setLanguages(root, model);
       await PlaceholderService.setNotyf(root, model);
       await this.setPanels(root, model);
-      await this.postGenerationSteps(root);
+      await this.postGenerationSteps(root, model);
       SpinnerService.hide();
       ModalService.message(`App ${model.name} created at ${root}`, 'Success');
     } catch (error) {
@@ -40,12 +40,15 @@ export class CreateAppService {
     }
   }
 
-  static async checkPrerequisites() {
+  static async checkPrerequisites(packageManager) {
     const checks = [
       { cmd: 'node --version', name: 'Node.js' },
       { cmd: 'npm --version', name: 'npm' },
       { cmd: 'git --version', name: 'Git' },
     ];
+    if ((packageManager || 'pnpm') === 'pnpm') {
+      checks.push({ cmd: 'pnpm --version', name: 'pnpm' });
+    }
     const missing = [];
     for (const { cmd, name } of checks) {
       const result = await window.api.exec(cmd);
@@ -96,10 +99,11 @@ export class CreateAppService {
     await FileService.writeFileSync(`${root}/index.js`, indexContent, { encoding: 'utf-8' });
   }
 
-  static async postGenerationSteps(root) {
-    const npmResult = await window.api.exec('npm install', { cwd: root, timeout: 120000 });
-    if (npmResult.error) {
-      console.error('npm install failed:', npmResult.stderr);
+  static async postGenerationSteps(root, model) {
+    const pm = model.packageManager || 'pnpm';
+    const installResult = await window.api.exec(`${pm} install`, { cwd: root, timeout: 120000 });
+    if (installResult.error) {
+      console.error(`${pm} install failed:`, installResult.stderr);
     }
     const gitInitResult = await window.api.exec('git init', { cwd: root, timeout: 30000 });
     if (gitInitResult.error) {

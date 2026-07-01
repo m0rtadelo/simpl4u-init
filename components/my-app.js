@@ -27,6 +27,7 @@ export class MyApp extends StaticElement {
     this.setField('dismissible', true);
     this.setField('positionx', 'right');
     this.setField('positiony', 'top');
+    this.setField('packageManager', 'pnpm');
     this.setField('import-export', true);
     this.setField('data', [
       { id: 'home', Label: 'Home', Type: 'static'}
