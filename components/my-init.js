@@ -1,6 +1,6 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { RouterService } from '../../simpl4u/services/router-service.js';
-import { ModalService } from '../../simpl4u/services/modal-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { RouterService } from 'simpl4u/services/router-service.js';
+import { ModalService } from 'simpl4u/services/modal-service.js';
 import { CreateAppService } from '../services/create-app.js';
 
 export class MyInit extends StaticElement {

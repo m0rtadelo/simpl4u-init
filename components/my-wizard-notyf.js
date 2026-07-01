@@ -1,4 +1,4 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class MyWizardNotyf extends StaticElement {
   template() {

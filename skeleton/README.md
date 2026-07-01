@@ -4,12 +4,14 @@ An [Electron](https://www.electronjs.org) App using [simpl4u](https://github.com
 
 ## Getting started
 
+%pm-setup
+
 1. **Install dependencies**
   ```sh
-  npm i
+  %pm install
   ```
 
 2. **Execute demo**
   ```sh
-  npm start
+  %pm start
   ````

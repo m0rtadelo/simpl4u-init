@@ -1,4 +1,4 @@
-import { FileService } from '../../simpl4u/services/file-service.js';
+import { FileService } from 'simpl4u/services/file-service.js';
 
 export class ComponentBuilder {
   static panelClassName(id) {

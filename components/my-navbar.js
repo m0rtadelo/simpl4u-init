@@ -1,5 +1,5 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-/** @typedef {import('../../simpl4u/components/simpl-navbar.js').NavbarDefinition} NavbarDefinition */
+import { StaticElement } from 'simpl4u/core/static-element.js';
+/** @typedef {import('simpl4u/components/simpl-navbar.js').NavbarDefinition} NavbarDefinition */
 
 export class MyNavBar extends StaticElement {
   

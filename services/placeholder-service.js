@@ -1,4 +1,4 @@
-import { FileService } from '../../simpl4u/services/file-service.js';
+import { FileService } from 'simpl4u/services/file-service.js';
 
 export class PlaceholderService {
   static async setWindow(root, model) {
@@ -9,7 +9,13 @@ export class PlaceholderService {
   }
 
   static async setAppName(root, model) {
+    const pm = model.packageManager || 'pnpm';
+    const pmSetup = pm === 'pnpm'
+      ? '### Enable pnpm (if needed)\n\nIf `pnpm` is not available on your system yet, run:\n\n```sh\ncorepack enable pnpm\n```\n\nFallback:\n\n```sh\nnpm install -g pnpm\n```\n\n'
+      : '';
     await this.replaceHolders(root, '/README.md', 'name', model.name);
+    await this.replaceHolders(root, '/README.md', 'pm', pm);
+    await this.replaceHolders(root, '/README.md', 'pm-setup', pmSetup);
     await this.replaceHolders(root, '/package.json', 'name', model.name);
     await this.replaceHolders(root, '/index.html', 'name', model.name);
     await this.replaceHolders(root, '/components/my-app.js', 'name', model.name);

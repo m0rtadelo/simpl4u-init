@@ -1,5 +1,5 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-/** @typedef {import('../../simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
+import { StaticElement } from 'simpl4u/core/static-element.js';
+/** @typedef {import('simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
 
 export class MyWizardPanels extends StaticElement {
   template() {

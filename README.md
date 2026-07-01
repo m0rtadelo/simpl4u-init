@@ -21,7 +21,7 @@ Once confirmed, it copies the [skeleton](./skeleton) template, generates the req
 git clone https://github.com/m0rtadelo/simpl4u-init.git
 git clone https://github.com/m0rtadelo/simpl4u.git
 cd simpl4u-init
-npm i
+pnpm i
 npm start
 ```
 
@@ -65,6 +65,8 @@ simpl4u-init/
 
 - [Node.js](https://nodejs.org) 18+
 - [simpl4u](https://github.com/m0rtadelo/simpl4u) (cloned as a sibling directory)
+(optional)
+- [pnpm](https://pnpm.io/) disk space and speed improvements
 
 ## Scripts
 

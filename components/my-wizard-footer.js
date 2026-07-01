@@ -1,5 +1,5 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { RouterService } from '../../simpl4u/services/router-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { RouterService } from 'simpl4u/services/router-service.js';
 import { CreateAppService } from '../services/create-app.js';
 import { ValidationService } from '../services/validation.service.js';
 
