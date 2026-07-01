@@ -1,6 +1,6 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { RouterService } from '../../simpl4u/services/router-service.js';
-import { StorageService } from '../../simpl4u/services/storage-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { RouterService } from 'simpl4u/services/router-service.js';
+import { StorageService } from 'simpl4u/services/storage-service.js';
 
 export class MyApp extends StaticElement {
 
@@ -10,7 +10,7 @@ export class MyApp extends StaticElement {
   }
 
   initApp() {
-    document.title = 'Init App Wizard (v1.0.0) - Simpl4u';
+    document.title = 'Init App Wizard (v1.0.1) - Simpl4u';
     RouterService.view = 'init';
     StorageService.key = 'init-app';
     StorageService.clear();

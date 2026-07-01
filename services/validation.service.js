@@ -1,5 +1,5 @@
-import { ModalService } from '../../simpl4u/services/modal-service.js';
-import { RouterService } from '../../simpl4u/services/router-service.js';
+import { ModalService } from 'simpl4u/services/modal-service.js';
+import { RouterService } from 'simpl4u/services/router-service.js';
 
 export class ValidationService {
   static async validate(model, panel) {

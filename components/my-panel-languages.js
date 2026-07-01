@@ -1,5 +1,5 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { ModalService } from '../../simpl4u/services/modal-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { ModalService } from 'simpl4u/services/modal-service.js';
 
 export class MyPanelLanguages extends StaticElement {
   template() {

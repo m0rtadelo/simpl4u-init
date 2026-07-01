@@ -1,7 +1,7 @@
-import { FileService } from '../../simpl4u/services/file-service.js';
-import { ModalService } from '../../simpl4u/services/modal-service.js';
-import { SpinnerService } from '../../simpl4u/services/spinner-service.js';
-import { StorageService } from '../../simpl4u/services/storage-service.js';
+import { FileService } from 'simpl4u/services/file-service.js';
+import { ModalService } from 'simpl4u/services/modal-service.js';
+import { SpinnerService } from 'simpl4u/services/spinner-service.js';
+import { StorageService } from 'simpl4u/services/storage-service.js';
 import { PlaceholderService } from './placeholder-service.js';
 import { ComponentBuilder } from './component-builder.js';
 

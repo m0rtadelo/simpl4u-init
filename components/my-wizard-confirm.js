@@ -1,5 +1,5 @@
-import { StaticElement } from '../../simpl4u/core/static-element.js';
-import { FileService } from '../../simpl4u/services/file-service.js';
+import { StaticElement } from 'simpl4u/core/static-element.js';
+import { FileService } from 'simpl4u/services/file-service.js';
 import { CreateAppService } from '../services/create-app.js';
 
 export class MyWizardConfirm extends StaticElement {
