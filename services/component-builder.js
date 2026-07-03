@@ -1,6 +1,10 @@
 import { FileService } from 'simpl4u/services/file-service.js';
 
 export class ComponentBuilder {
+  static withTrailingNewline(content) {
+    return content.endsWith('\n') ? content : `${content}\n`;
+  }
+
   static panelClassName(id) {
     return `My${id.charAt(0).toUpperCase()}${id.slice(1)}`;
   }
@@ -23,7 +27,7 @@ export class ComponentBuilder {
     const className = this.panelClassName(panel.id);
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from 'simpl4u/core/static-element.js';
+      this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${className} extends StaticElement {
   template() {
@@ -32,7 +36,7 @@ export class ${className} extends StaticElement {
     \`;
   }
 }
-customElements.define('my-${panel.id}', ${className});`,
+customElements.define('my-${panel.id}', ${className});`),
       { encoding: 'utf-8' }
     );
     return [`import { ${className} } from './components/my-${panel.id}.js';`];
@@ -42,7 +46,7 @@ customElements.define('my-${panel.id}', ${className});`,
     const className = this.panelClassName(panel.id);
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { ReactiveElement } from 'simpl4u/core/reactive-element.js';
+      this.withTrailingNewline(`import { ReactiveElement } from 'simpl4u/core/reactive-element.js';
 
 export class ${className} extends ReactiveElement {
   constructor() {
@@ -57,7 +61,7 @@ export class ${className} extends ReactiveElement {
     \`;
   }
 }
-customElements.define('my-${panel.id}', ${className});`,
+customElements.define('my-${panel.id}', ${className});`),
       { encoding: 'utf-8' }
     );
     return [`import { ${className} } from './components/my-${panel.id}.js';`];
@@ -83,7 +87,7 @@ customElements.define('my-${panel.id}', ${className});`,
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from 'simpl4u/core/static-element.js';
+      this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 import { LanguageService } from 'simpl4u/services/language-service.js';
 /** @typedef {import('simpl4u/components/simpl-crud.js').FormDefinition} FormDefinition */
 
@@ -121,7 +125,7 @@ export class ${className} extends StaticElement {
     setTimeout(() => {this.get('search-${panel.id}').focus();}, 300);
   }
 }
-customElements.define('my-${panel.id}', ${className});`,
+customElements.define('my-${panel.id}', ${className});`),
       { encoding: 'utf-8' }
     );
     return [`import { ${className} } from './components/my-${panel.id}.js';`];
@@ -133,7 +137,7 @@ customElements.define('my-${panel.id}', ${className});`,
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}.js`,
-      `import { StaticElement } from 'simpl4u/core/static-element.js';
+      this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${className} extends StaticElement {
   constructor() {
@@ -186,13 +190,13 @@ export class ${className} extends StaticElement {
     this.refresh();
   }
 }
-customElements.define('my-${panel.id}', ${className});`,
+customElements.define('my-${panel.id}', ${className});`),
       { encoding: 'utf-8' }
     );
 
     await FileService.writeFileSync(
       `${root}/components/my-${panel.id}-form.js`,
-      `import { StaticElement } from 'simpl4u/core/static-element.js';
+      this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 
 export class ${formClassName} extends StaticElement {
   template() {
@@ -208,7 +212,7 @@ export class ${formClassName} extends StaticElement {
     setTimeout(() => document.querySelector('input[name="title"]')?.focus(), 500);
   }
 }
-customElements.define('my-${panel.id}-form', ${formClassName});`,
+customElements.define('my-${panel.id}-form', ${formClassName});`),
       { encoding: 'utf-8' }
     );
 
@@ -221,7 +225,7 @@ customElements.define('my-${panel.id}-form', ${formClassName});`,
   static async createImportExportComponent(root) {
     await FileService.writeFileSync(
       `${root}/components/my-settings.js`,
-      `import { StaticElement } from 'simpl4u/core/static-element.js';
+      this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 import { LanguageService } from 'simpl4u/services/language-service.js';
 import { ToastService } from 'simpl4u/services/toast-service.js';
 import { FileService } from 'simpl4u/services/file-service.js';
@@ -288,7 +292,7 @@ export class MySettings extends StaticElement {
     FileService.download('export.json', data);
   }
 }
-customElements.define('my-settings', MySettings);`,
+customElements.define('my-settings', MySettings);`),
       { encoding: 'utf-8' }
     );
     return ['import { MySettings } from \'./components/my-settings.js\';'];

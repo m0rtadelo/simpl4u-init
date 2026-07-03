@@ -1,6 +1,28 @@
 import { FileService } from 'simpl4u/services/file-service.js';
 
 export class PlaceholderService {
+  static escapeSingleQuotedString(value) {
+    return String(value)
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, '\\\'')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t');
+  }
+
+  static toSingleQuotedObjectLiteral(obj, baseIndent = 2) {
+    const indent = ' '.repeat(baseIndent);
+    const entries = Object.entries(obj).map(([key, value]) => {
+      const escapedKey = this.escapeSingleQuotedString(key);
+      if (typeof value === 'string') {
+        const escapedValue = this.escapeSingleQuotedString(value);
+        return `${indent}'${escapedKey}': '${escapedValue}'`;
+      }
+      return `${indent}'${escapedKey}': ${JSON.stringify(value)}`;
+    });
+    return `{\n${entries.join(',\n')}\n}`;
+  }
+
   static async setWindow(root, model) {
     await this.replaceHolders(root, '/main.js', 'winx', model.winx);
     await this.replaceHolders(root, '/main.js', 'winy', model.winy);
@@ -25,10 +47,10 @@ export class PlaceholderService {
   static async setRouter(root, model) {
     if (model.data?.length) {
       await this.replaceHolders(root, '/components/my-app.js', 'router_init',
-        `RouterService.view = '${model.data[0].id}'; // Set initial view`);
+        `RouterService.view = '${model.data[0].id}';`);
     } else {
       await this.replaceHolders(root, '/components/my-app.js', 'router_init',
-        '// RouterService.view = \'\'; // Set initial view');
+        '');
     }
   }
 
@@ -122,16 +144,17 @@ export class PlaceholderService {
       custom.push(entry);
       const langTranslations = translations[entry.id] || translations.en;
       const words = { title: model.title, ...langTranslations };
+      const wordsObjectLiteral = this.toSingleQuotedObjectLiteral(words);
       await FileService.writeFileSync(
         `${root}/assets/i18n/${entry.id}.js`,
-        `export const words = ${JSON.stringify(words, null, 2)};`,
+        `export const words = ${wordsObjectLiteral};\n`,
         { encoding: 'utf-8' }
       );
     }
 
     const ids = custom.map(c => c.id).join(', ');
     const imports = custom.map(c => c.import).join('\n');
-    const languages = custom.map(c => `{ id: '${c.id}', name: '${c.name}' }`).join(',\n');
+    const languages = custom.map(c => `{ id: '${c.id}', name: '${c.name}' }`).join(',\n      ');
 
     await this.replaceHolders(root, '/components/my-app.js', 'lang_imports', imports);
     await this.replaceHolders(root, '/components/my-app.js', 'lang_ids', ids);
