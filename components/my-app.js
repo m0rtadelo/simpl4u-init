@@ -10,9 +10,13 @@ export class MyApp extends StaticElement {
   }
 
   initApp() {
-    document.title = 'Init App Wizard (v1.0.1) - Simpl4u';
+    // Set storage key and title from app name FIRST, before any storage access
+    const appName = globalThis.api?.appName ?? 'init';
+    const appVersion = globalThis.api?.appVersion ?? '0.0.1';
+    StorageService.key = appName;
+    document.title = appName + ' (' + appVersion + ')';
+
     RouterService.view = 'init';
-    StorageService.key = 'init-app';
     StorageService.clear();
     this.data = {};
     this.setField('winx', 1100);

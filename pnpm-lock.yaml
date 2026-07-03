@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       simpl4u:
-        specifier: ^1.0.0
-        version: 1.0.1
+        specifier: ../simpl4u
+        version: link:../simpl4u
     devDependencies:
       '@eslint/js':
         specifier: ^9.24.0
@@ -551,10 +551,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  simpl4u@1.0.1:
-    resolution: {integrity: sha512-cD67Pv5cTi9QUdtcq+tQwTUp9l6kTLzbk60XyETxQHbmp6srgLLIprBHv8L2VtMqFF4zIokhsfFAQbVQmTQLRg==}
-    hasBin: true
 
   sprintf-js@1.1.3:
     resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
@@ -1168,8 +1164,6 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
-
-  simpl4u@1.0.1: {}
 
   sprintf-js@1.1.3:
     optional: true

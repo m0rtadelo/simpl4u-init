@@ -2,6 +2,19 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const pkg = require('./package.json');
+
+// Set app name and userData path from package.json BEFORE any storage access
+app.setName(pkg.name);
+app.setPath('userData', path.join(app.getPath('appData'), pkg.name));
+
+ipcMain.on('get-app-name', (e) => {
+  e.returnValue = pkg.name;
+});
+
+ipcMain.on('get-app-version', (e) => {
+  e.returnValue = pkg.version;
+});
 
 ipcMain.handle('get-locale', () => {
   return app.getLocale(); // e.g., "en-US"

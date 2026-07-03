@@ -1,5 +1,10 @@
 window.api = window.api || {
   /**
+   * App name from package.json, or fallback to 'init' in browser mode.
+   */
+  appName: 'init',
+  appVersion: '0.0.1',
+  /**
    * Retrieves the user's language code from the browser.
    * @returns {Promise<string>} A promise that resolves to the browser's language code (e.g., 'en', 'es').
    */

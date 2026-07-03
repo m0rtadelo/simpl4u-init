@@ -13,13 +13,16 @@ export class MyApp extends StaticElement {
   }
 
   initApp() {
+    // Set storage key and title from app name FIRST, before any storage access
+    const appName = globalThis.api?.appName ?? 'init';
+    const appVersion = globalThis.api?.appVersion ?? '0.0.1';
+    StorageService.key = appName;
+    document.title = appName + ' (' + appVersion + ')';    
     LanguageService.set({ %lang_ids }%default_lang);
     ToastService.duration = %duration;
     ToastService.dismissible = %dismissible;
     ToastService.position = { x: '%positionx', y: '%positiony' };
-    StorageService.key = '%name';
     %router_init
-    document.title = '%name';
   }
 
   template() {

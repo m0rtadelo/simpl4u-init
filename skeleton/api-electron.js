@@ -2,6 +2,8 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
+  appName: ipcRenderer.sendSync('get-app-name'),
+  appVersion: ipcRenderer.sendSync('get-app-version'),  
   getLocale: () => ipcRenderer.invoke('get-locale'),
   saveSystem: (key, data) => ipcRenderer.invoke('saveSystem', key, data),
   loadSystem: (key) => ipcRenderer.invoke('loadSystem', key),

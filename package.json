@@ -8,7 +8,7 @@
         "lint:fix": "eslint . --fix"
     },
     "dependencies": {
-        "simpl4u": "^1.0.0"
+        "simpl4u": "../simpl4u"
     },    
     "devDependencies": {
         "@eslint/js": "^9.24.0",
