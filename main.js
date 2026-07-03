@@ -4,16 +4,21 @@ const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
 const pkg = require('./package.json');
+const appName = `${pkg.name} (${pkg.version})`;
+let win;
 
 // Set app name and userData path from package.json BEFORE any storage access
+const userDataPath = path.join(app.getPath('appData'), pkg.name);
 app.setName(pkg.name);
-app.setPath('userData', path.join(app.getPath('appData'), pkg.name));
+app.setPath('userData', userDataPath);
+console.log(`User data path set to: ${userDataPath}`);
 
 ipcMain.on('get-app-name', (e) => {
   e.returnValue = pkg.name;
 });
 
 ipcMain.on('get-app-version', (e) => {
+  win.title = appName;
   e.returnValue = pkg.version;
 });
 
@@ -167,10 +172,11 @@ ipcMain.handle('exec', (event, command, options = {}) => {
 });
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 800,
     height: 600,
     fullscreen: false,
+    title: appName,
     webPreferences: {
       preload: path.join(__dirname, 'api-electron.js'),
     }

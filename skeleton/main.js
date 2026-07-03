@@ -3,6 +3,8 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const pkg = require('./package.json');
+const appName = `${pkg.name} (${pkg.version})`;
+let win;
 
 // Set app name and userData path from package.json BEFORE any storage access
 app.setName(pkg.name);
@@ -13,6 +15,7 @@ ipcMain.on('get-app-name', (e) => {
 });
 
 ipcMain.on('get-app-version', (e) => {
+  win.title = appName;
   e.returnValue = pkg.version;
 });
 
@@ -177,6 +180,7 @@ function createWindow() {
     width: state.width,
     height: state.height,
     fullscreen: state.fullscreen,
+    title: appName,
     webPreferences: {
       preload: path.join(__dirname, 'api-electron.js'),
     }
