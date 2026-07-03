@@ -1,19 +1,15 @@
 import { StaticElement } from 'simpl4u/core/static-element.js';
-/** @typedef {import('simpl4u/components/simpl-navbar.js').NavbarDefinition} NavbarDefinition */
+import { NavbarService } from 'simpl4u/services/navbar-service.js';
 
 export class MyNavBar extends StaticElement {
-  
+
   template() {
     return '<simpl-navbar id="navbar" name="Init"></simpl-navbar>';
   }
 
-  onReady() {
-    const navbar = this.get('navbar');
-    if (!navbar) return;
-    navbar.hideLang = true;
-    navbar.hideTheme = false;
-    /** @type {NavbarDefinition[]} */
-    const items = [
+  connectedCallback() {
+    super.connectedCallback();
+    NavbarService.items = [
       { id: 'init', name: 'Welcome' },
       { id: 'app', name: 'Application' },
       { id: 'panels', name: 'Panels' },
@@ -22,7 +18,13 @@ export class MyNavBar extends StaticElement {
       { id: 'notyf', name: 'Notyf' },
       { id: 'confirm', name: 'Confirm' },
     ];
-    navbar.items = items;
+  }
+
+  onReady() {
+    const navbar = this.get('navbar');
+    if (!navbar) return;
+    navbar.hideLang = true;
+    navbar.hideTheme = false;
   }
 }
 customElements.define('my-navbar', MyNavBar);
