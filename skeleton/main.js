@@ -176,7 +176,7 @@ function createWindow() {
   const defaults = { width: %winx, height: %winy, fullscreen: %fullscreen };
   const state = SAVE_WINDOW_STATE ? { ...defaults, ...loadWindowState() } : defaults;
 
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: state.width,
     height: state.height,
     fullscreen: state.fullscreen,
