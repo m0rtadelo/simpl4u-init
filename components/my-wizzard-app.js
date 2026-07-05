@@ -18,7 +18,9 @@ export class MyWizardApp extends StaticElement {
   }
 
   onReady() {
-    this.get('name').focus();
+    setTimeout(() => {
+      this.get('name').focus();
+    }, 300);
   }
 }
 customElements.define('my-wizard-app', MyWizardApp);

@@ -228,8 +228,8 @@ customElements.define('my-${panel.id}-form', ${formClassName});`),
       this.withTrailingNewline(`import { StaticElement } from 'simpl4u/core/static-element.js';
 import { LanguageService } from 'simpl4u/services/language-service.js';
 import { ToastService } from 'simpl4u/services/toast-service.js';
-import { FileService } from 'simpl4u/services/file-service.js';
-import { StorageService } from 'simpl4u/services/storage-service.js';
+import { NavbarService } from 'simpl4u/services/navbar-service.js';
+import { BackupService } from '../services/backup.js';
 
 export class MySettings extends StaticElement {
   files;
@@ -260,12 +260,28 @@ export class MySettings extends StaticElement {
             </div>
           </div>
         </div>
+        <div class="col-12 col-md-5 mt-3">
+          <div class="card">
+            <div class="card-header">\${LanguageService.i18n('navbar-theme')}</div>
+            <div class="card-body mt-3">
+              <select id="navbarTheme" class="form-select" (change)="changeNavbarTheme" aria-label="\${LanguageService.i18n('navbar-theme')}">
+                \${NavbarService.variants.map(variant => \`
+                  <option value="\${variant.id}" \${NavbarService.variant === variant.id ? 'selected' : ''}>\${variant.label}</option>
+                \`).join('')}
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
     \`;
   }
 
   change(event) {
     this.files = event.target.files;
+  }
+
+  changeNavbarTheme(event) {
+    NavbarService.variant = event.target.value;
   }
 
   async import() {
@@ -275,11 +291,7 @@ export class MySettings extends StaticElement {
       return;
     }
     try {
-      const content = await file.text();
-      const json = JSON.parse(content);
-      await StorageService.saveAppModel(json);
-      StorageService.saveUserModel(json);
-      this.model = json;
+      await BackupService.import(file);
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -288,8 +300,7 @@ export class MySettings extends StaticElement {
   }
 
   async export() {
-    const data = await StorageService.loadAppModel();
-    FileService.download('export.json', data);
+    await BackupService.export();
   }
 }
 customElements.define('my-settings', MySettings);`),
