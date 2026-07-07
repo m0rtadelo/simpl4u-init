@@ -1,10 +1,17 @@
 import { StaticElement } from 'simpl4u/core/static-element.js';
-/** @typedef {import('simpl4u/components/simpl-navbar.js').NavbarDefinition} NavbarDefinition */
+import { NavbarService } from 'simpl4u/services/navbar-service.js';
 
 export class MyNavBar extends StaticElement {
 
   template() {
     return '<simpl-navbar id="navbar" name="%title"></simpl-navbar>';
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    NavbarService.items = [
+      %navbar_items
+    ];
   }
 
   onReady() {
@@ -16,12 +23,7 @@ export class MyNavBar extends StaticElement {
     %navbar-icon-setter
     navbar.languages = [
       %languages
-    ]; // Set available languages in the navbar
-    /** @type {NavbarDefinition[]} */
-    const items = [
-      %navbar_items
     ];
-    navbar.items = items;
   }
 }
 customElements.define('my-navbar', MyNavBar);
