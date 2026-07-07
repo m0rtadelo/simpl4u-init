@@ -22,7 +22,7 @@ export class MyWizardConfirm extends StaticElement {
         <div class="card-body">
           <div class="row">
             <simpl-select class="col-md-4 col-12" id="packageManager" label="Package manager" items='[{"id": "pnpm", "text": "pnpm"},{"id": "npm", "text": "npm"}]'></simpl-select>
-            <simpl-switch class="col-md-8 col-12" id="import-export" style="margin-top: 40px;" label="Add Import/Export functionality to new created app"></simpl-switch>
+            <simpl-switch class="col-md-8 col-12" id="import-export" style="margin-top: 40px;" label="Add settings gear"></simpl-switch>
           </div>
         </div>
       </div>  

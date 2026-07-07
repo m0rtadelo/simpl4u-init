@@ -40,6 +40,7 @@ export class PlaceholderService {
     await this.replaceHolders(root, '/README.md', 'pm-setup', pmSetup);
     await this.replaceHolders(root, '/package.json', 'name', model.name);
     await this.replaceHolders(root, '/index.html', 'name', model.name);
+    await this.replaceHolders(root, '/index.html', 'theme', model['app-theme'] || 'auto');
     await this.replaceHolders(root, '/components/my-app.js', 'name', model.name);
     await this.replaceHolders(root, '/main.js', 'name', model.name);
   }
@@ -62,6 +63,17 @@ export class PlaceholderService {
         (!model['language-selector'] || model.lang?.length < 2) ? 'true' : 'false');
       await this.replaceHolders(root, '/components/my-navbar.js', 'theme-selector',
         model['theme-selector'] ? 'false' : 'true');
+
+      await this.replaceHolders(root, '/components/my-navbar.js', 'navbar-theme',
+        model['navbar-theme'] || 'body-tertiary');
+
+      const navbarIcon = model['navbar-icon'] || '';
+      if (navbarIcon) {
+        await this.replaceHolders(root, '/components/my-navbar.js', 'navbar-icon-setter',
+          `navbar.icon = '${navbarIcon}';`);
+      } else {
+        await this.replaceHolders(root, '/components/my-navbar.js', 'navbar-icon-setter', '');
+      }
     } else {
       await this.replaceHolders(root, '/components/my-app.js', 'navbar', ' ');
       await FileService.rm(`${root}/components/my-navbar.js`, { force: true });
@@ -96,6 +108,9 @@ export class PlaceholderService {
         'restore-data': 'Restore data',
         'no-file-selected': 'No file selected',
         'error-importing-data': 'Error importing data',
+        'navbar-theme': 'Navbar theme',
+        'settings': 'Settings',
+        'clear': 'Clear',
       },
       es: {
         'filter-text': 'Filtrar...',
@@ -105,6 +120,9 @@ export class PlaceholderService {
         'restore-data': 'Restaurar datos',
         'no-file-selected': 'Ningún archivo seleccionado',
         'error-importing-data': 'Error al importar datos',
+        'navbar-theme': 'Tema de la barra de navegación',
+        'settings': 'Ajustes',
+        'clear': 'Limpiar',
       },
       ca: {
         'filter-text': 'Filtrar...',
@@ -114,6 +132,9 @@ export class PlaceholderService {
         'restore-data': 'Restaurar dades',
         'no-file-selected': 'Cap fitxer seleccionat',
         'error-importing-data': 'Error en importar dades',
+        'navbar-theme': 'Tema de la barra de navegació',
+        'settings': 'Configuració',
+        'clear': 'Netejar',
       },
       de: {
         'filter-text': 'Filtern...',
@@ -123,6 +144,9 @@ export class PlaceholderService {
         'restore-data': 'Daten wiederherstellen',
         'no-file-selected': 'Keine Datei ausgewählt',
         'error-importing-data': 'Fehler beim Importieren der Daten',
+        'navbar-theme': 'Navigationsleisten-Design',
+        'settings': 'Einstellungen',
+        'clear': 'Löschen',
       },
       ja: {
         'filter-text': 'フィルター',
@@ -132,6 +156,9 @@ export class PlaceholderService {
         'restore-data': 'データを復元',
         'no-file-selected': 'ファイルが選択されていません',
         'error-importing-data': 'データのインポート中にエラーが発生しました',
+        'navbar-theme': 'ナビゲーションバーのテーマ',
+        'settings': '設定',
+        'clear': 'クリア',
       },
     };
 

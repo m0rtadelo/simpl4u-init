@@ -77,16 +77,15 @@ export class CreateAppService {
 
     for (const panel of model.data) {
       appItems += `        \${ v === '${panel.id}' ? '<my-${panel.id}></my-${panel.id}>' : '' }\n`;
-      if (!panel['Hidden in Navbar']) {
-        navbarItems += `{ id: '${panel.id}', name: '${panel.Label}' }, `;
-      }
+      const visible = !panel['Hidden in Navbar'];
+      navbarItems += `{ id: '${panel.id}', name: '${panel.Label}', visible: ${visible} }, `;
       const imports = await ComponentBuilder.createComponent(root, panel);
       allImports.push(...imports);
     }
 
     if (model['import-export']) {
       appItems += '${ v === \'settings\' ? \'<my-settings></my-settings>\' : \'\' }\n';
-      navbarItems += '{ id: \'settings\', name: \'Settings\' }, ';
+      navbarItems += '{ id: \'settings\', icon: \'bi-gear-fill\', align: \'right\', visible: true }, ';
       const imports = await ComponentBuilder.createImportExportComponent(root);
       allImports.push(...imports);
     }

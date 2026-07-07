@@ -33,6 +33,9 @@ export class MyApp extends StaticElement {
     this.setField('positiony', 'top');
     this.setField('packageManager', 'pnpm');
     this.setField('import-export', true);
+    this.setField('navbar-theme', 'body-tertiary');
+    this.setField('navbar-icon', '');
+    this.setField('app-theme', 'auto');
     this.setField('data', [
       { id: 'home', Label: 'Home', Type: 'static'}
     ]);

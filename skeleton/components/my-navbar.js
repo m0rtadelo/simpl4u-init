@@ -2,7 +2,7 @@ import { StaticElement } from 'simpl4u/core/static-element.js';
 /** @typedef {import('simpl4u/components/simpl-navbar.js').NavbarDefinition} NavbarDefinition */
 
 export class MyNavBar extends StaticElement {
-  
+
   template() {
     return '<simpl-navbar id="navbar" name="%title"></simpl-navbar>';
   }
@@ -12,7 +12,9 @@ export class MyNavBar extends StaticElement {
     if (!navbar) return;
     navbar.hideLang = %language-selector;
     navbar.hideTheme = %theme-selector;
-    navbar.languages = [ 
+    navbar.variant = '%navbar-theme';
+    %navbar-icon-setter
+    navbar.languages = [
       %languages
     ]; // Set available languages in the navbar
     /** @type {NavbarDefinition[]} */

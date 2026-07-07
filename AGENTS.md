@@ -42,10 +42,10 @@ No test framework is installed. No CI or pre-commit hooks exist.
 | File | Placeholders |
 |------|-------------|
 | `package.json` | `%name` |
-| `index.html` | `%name` |
+| `index.html` | `%name`, `%theme` |
 | `main.js` | `%name`, `%winx`, `%winy`, `%fullscreen`, `%save-window-state` |
 | `components/my-app.js` | `%lang_imports`, `%lang_ids`, `%duration`, `%dismissible`, `%positionx`, `%positiony`, `%router_init`, `%name`, `%navbar`, `%app_items` |
-| `components/my-navbar.js` | `%title`, `%language-selector`, `%theme-selector`, `%languages`, `%navbar_items` |
+| `components/my-navbar.js` | `%title`, `%language-selector`, `%theme-selector`, `%languages`, `%navbar_items`, `%navbar-theme`, `%navbar-icon-setter` |
 | `README.md` | `%name` |
 
 ## Notable
